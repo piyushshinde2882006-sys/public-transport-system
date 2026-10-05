@@ -23,7 +23,7 @@ body {
 header {
     background: linear-gradient(135deg, #0066cc, #00a8ff);
     color: white;
-    padding: 22px;
+    padding: 25px;
     text-align: center;
 }
 
@@ -32,7 +32,7 @@ header h1 {
 }
 
 header p {
-    margin-top: 7px;
+    margin-top: 8px;
     font-size: 15px;
 }
 
@@ -48,7 +48,7 @@ header p {
     background: white;
     padding: 25px;
     border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .search-box h2 {
@@ -62,15 +62,18 @@ header p {
     gap: 15px;
 }
 
-input, select {
+input,
+select {
     padding: 13px;
     border: 1px solid #ccc;
     border-radius: 8px;
     font-size: 14px;
     outline: none;
+    width: 100%;
 }
 
-input:focus, select:focus {
+input:focus,
+select:focus {
     border-color: #0066cc;
 }
 
@@ -82,13 +85,14 @@ button {
     color: white;
     font-size: 15px;
     cursor: pointer;
+    transition: 0.3s;
 }
 
 button:hover {
     background: #004c99;
 }
 
-/* Result */
+/* Results */
 #result {
     margin-top: 25px;
 }
@@ -98,7 +102,13 @@ button:hover {
     padding: 20px;
     margin-bottom: 15px;
     border-radius: 12px;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+    transition: 0.3s;
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.12);
 }
 
 .card h3 {
@@ -115,7 +125,7 @@ button:hover {
 
 .info span {
     background: #eef6ff;
-    padding: 9px;
+    padding: 10px;
     border-radius: 6px;
 }
 
@@ -123,12 +133,24 @@ button:hover {
     text-align: center;
     padding: 20px;
     color: #0066cc;
+    font-size: 17px;
 }
 
 .error {
-    color: red;
+    color: #d00000;
+    background: #ffecec;
     text-align: center;
     padding: 15px;
+    border-radius: 8px;
+}
+
+.success {
+    background: #e9f9ee;
+    color: #187a35;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 8px;
+    text-align: center;
 }
 
 /* Footer */
@@ -141,14 +163,18 @@ footer {
     font-size: 14px;
 }
 
+footer p {
+    margin: 5px;
+}
+
 /* Mobile */
-@media(max-width: 800px) {
+@media (max-width: 800px) {
     .form {
         grid-template-columns: 1fr 1fr;
     }
 }
 
-@media(max-width: 500px) {
+@media (max-width: 500px) {
     .form {
         grid-template-columns: 1fr;
     }
@@ -160,31 +186,43 @@ footer {
     header h1 {
         font-size: 22px;
     }
+
+    .container {
+        width: 95%;
+    }
 }
 </style>
 </head>
 
 <body>
 
+<!-- Header -->
 <header>
     <h1>🚌 Public Transport Information System</h1>
-    <p>Find Bus & Train Information Using API</p>
+    <p>Find Bus & Train Information Easily</p>
 </header>
 
+<!-- Main Content -->
 <div class="container">
 
+    <!-- Search Section -->
     <div class="search-box">
+
         <h2>🔎 Search Transport</h2>
 
         <div class="form">
 
-            <input type="text"
-                   id="source"
-                   placeholder="Enter Source">
+            <input
+                type="text"
+                id="source"
+                placeholder="Enter Source"
+            >
 
-            <input type="text"
-                   id="destination"
-                   placeholder="Enter Destination">
+            <input
+                type="text"
+                id="destination"
+                placeholder="Enter Destination"
+            >
 
             <select id="transport">
                 <option value="all">All Transport</option>
@@ -197,177 +235,316 @@ footer {
             </button>
 
         </div>
+
     </div>
 
+    <!-- Results -->
     <div id="result"></div>
 
 </div>
 
+<!-- Footer -->
 <footer>
-    <p>Public Transport Information System Using API</p>
-    <p>Developed using HTML5 • CSS3 • JavaScript • REST API / JSON</p>
+    <p>Public Transport Information System</p>
+    <p>Developed using HTML5 • CSS3 • JavaScript • JSON</p>
 </footer>
 
 
 <script>
 
-/*
- IMPORTANT:
- Replace this URL with the Public Transport API
- selected for your project.
+/* =========================================
+   TRANSPORT DATA
+   ========================================= */
 
- Example:
- const API_URL = "YOUR_PUBLIC_TRANSPORT_API_URL";
-*/
+const transportData = [
 
-const API_URL = "YOUR_PUBLIC_TRANSPORT_API_URL";
+    {
+        type: "Bus",
+        number: "BUS-101",
+        name: "City Express",
+        source: "Pandharpur",
+        destination: "Solapur",
+        timing: "08:30 AM",
+        stops: "5 Stops",
+        fare: "₹30"
+    },
+
+    {
+        type: "Bus",
+        number: "BUS-102",
+        name: "Maharashtra Express",
+        source: "Pune",
+        destination: "Mumbai",
+        timing: "09:15 AM",
+        stops: "8 Stops",
+        fare: "₹150"
+    },
+
+    {
+        type: "Bus",
+        number: "BUS-103",
+        name: "City Link",
+        source: "Solapur",
+        destination: "Pandharpur",
+        timing: "11:00 AM",
+        stops: "6 Stops",
+        fare: "₹40"
+    },
+
+    {
+        type: "Train",
+        number: "TR-201",
+        name: "Passenger Express",
+        source: "Pandharpur",
+        destination: "Solapur",
+        timing: "10:15 AM",
+        stops: "8 Stops",
+        fare: "₹45"
+    },
+
+    {
+        type: "Train",
+        number: "TR-202",
+        name: "Pune Express",
+        source: "Pune",
+        destination: "Mumbai",
+        timing: "06:30 AM",
+        stops: "12 Stops",
+        fare: "₹120"
+    },
+
+    {
+        type: "Train",
+        number: "TR-203",
+        name: "Deccan Express",
+        source: "Mumbai",
+        destination: "Pune",
+        timing: "07:45 AM",
+        stops: "10 Stops",
+        fare: "₹100"
+    }
+
+];
 
 
-async function searchTransport() {
+/* =========================================
+   SEARCH FUNCTION
+   ========================================= */
 
-    const source = document.getElementById("source").value.trim();
-    const destination = document.getElementById("destination").value.trim();
-    const transport = document.getElementById("transport").value;
+function searchTransport() {
 
-    const result = document.getElementById("result");
+    const source =
+        document.getElementById("source").value.trim().toLowerCase();
+
+    const destination =
+        document.getElementById("destination").value.trim().toLowerCase();
+
+    const transport =
+        document.getElementById("transport").value;
+
+    const result =
+        document.getElementById("result");
+
+
+    /* Validation */
 
     if (source === "" || destination === "") {
-        result.innerHTML =
-            `<div class="error">
-                ⚠️ Please enter Source and Destination.
-             </div>`;
+
+        result.innerHTML = `
+            <div class="error">
+                ⚠️ Please enter both Source and Destination.
+            </div>
+        `;
+
         return;
     }
 
-    result.innerHTML =
-        `<div class="loading">
+
+    /* Loading message */
+
+    result.innerHTML = `
+        <div class="loading">
             ⏳ Searching transport information...
-         </div>`;
+        </div>
+    `;
 
-    /*
-       API CALL
 
-       The exact URL and JSON fields depend on the
-       Public Transport API selected for the project.
-    */
+    /* Small delay to simulate API request */
 
-    try {
+    setTimeout(function () {
 
-        // Demo data for testing the webpage
-        // Replace this section with fetch(API_URL)
-        // after selecting your actual API.
+        let data = transportData.filter(function(item) {
 
-        const demoData = [
-            {
-                type: "Bus",
-                number: "BUS-101",
-                name: "City Express",
-                route: source + " → " + destination,
-                timing: "08:30 AM",
-                stops: "5 Stops",
-                fare: "₹30"
-            },
-            {
-                type: "Train",
-                number: "TR-205",
-                name: "Passenger Express",
-                route: source + " → " + destination,
-                timing: "10:15 AM",
-                stops: "8 Stops",
-                fare: "₹45"
-            }
-        ];
+            const sourceMatch =
+                item.source.toLowerCase().includes(source);
 
-        let data = demoData;
+            const destinationMatch =
+                item.destination.toLowerCase().includes(destination);
 
-        if (transport !== "all") {
-            data = data.filter(item =>
-                item.type.toLowerCase() === transport
-            );
-        }
+            const transportMatch =
+                transport === "all" ||
+                item.type.toLowerCase() === transport;
 
-        displayResults(data);
+            return sourceMatch &&
+                   destinationMatch &&
+                   transportMatch;
 
-    } catch (error) {
+        });
 
-        result.innerHTML =
-            `<div class="error">
-                ❌ Unable to get transport information.
-             </div>`;
 
-        console.log(error);
-    }
+        displayResults(data, source, destination);
+
+    }, 700);
+
 }
 
 
-/* Display Results */
+/* =========================================
+   DISPLAY RESULTS
+   ========================================= */
 
-function displayResults(data) {
+function displayResults(data, source, destination) {
 
-    const result = document.getElementById("result");
+    const result =
+        document.getElementById("result");
+
+
+    /* No result */
 
     if (data.length === 0) {
 
-        result.innerHTML =
-            `<div class="error">
-                No transport found for this route.
-             </div>`;
+        result.innerHTML = `
+            <div class="error">
+                ❌ No transport found from
+                <b>${capitalize(source)}</b>
+                to
+                <b>${capitalize(destination)}</b>.
+                <br><br>
+                Please try another route.
+            </div>
+        `;
 
         return;
     }
 
-    result.innerHTML = "";
 
-    data.forEach(item => {
+    /* Success message */
+
+    result.innerHTML = `
+        <div class="success">
+            ✅ ${data.length} transport option(s) found
+            from <b>${capitalize(source)}</b>
+            to <b>${capitalize(destination)}</b>.
+        </div>
+    `;
+
+
+    /* Display each transport */
+
+    data.forEach(function(item) {
+
+        const icon =
+            item.type === "Bus" ? "🚌" : "🚆";
+
 
         result.innerHTML += `
 
-        <div class="card">
+            <div class="card">
 
-            <h3>
-                ${item.type === "Bus" ? "🚌" : "🚆"}
-                ${item.name}
-            </h3>
+                <h3>
+                    ${icon} ${item.name}
+                </h3>
 
-            <div class="info">
+                <div class="info">
 
-                <span>
-                    <b>Transport No:</b>
-                    ${item.number}
-                </span>
+                    <span>
+                        <b>Transport No:</b>
+                        ${item.number}
+                    </span>
 
-                <span>
-                    <b>Type:</b>
-                    ${item.type}
-                </span>
+                    <span>
+                        <b>Type:</b>
+                        ${item.type}
+                    </span>
 
-                <span>
-                    <b>Route:</b>
-                    ${item.route}
-                </span>
+                    <span>
+                        <b>Route:</b>
+                        ${item.source}
+                        →
+                        ${item.destination}
+                    </span>
 
-                <span>
-                    <b>Timing:</b>
-                    ${item.timing}
-                </span>
+                    <span>
+                        <b>Timing:</b>
+                        ${item.timing}
+                    </span>
 
-                <span>
-                    <b>Stops:</b>
-                    ${item.stops}
-                </span>
+                    <span>
+                        <b>Stops:</b>
+                        ${item.stops}
+                    </span>
 
-                <span>
-                    <b>Fare:</b>
-                    ${item.fare}
-                </span>
+                    <span>
+                        <b>Fare:</b>
+                        ${item.fare}
+                    </span>
+
+                </div>
 
             </div>
 
-        </div>
-
         `;
+
     });
+
 }
+
+
+/* =========================================
+   CAPITALIZE TEXT
+   ========================================= */
+
+function capitalize(text) {
+
+    return text
+        .split(" ")
+        .map(function(word) {
+
+            return word.charAt(0).toUpperCase()
+                   + word.slice(1);
+
+        })
+        .join(" ");
+
+}
+
+
+/* =========================================
+   ENTER KEY SEARCH
+   ========================================= */
+
+document.getElementById("source").addEventListener(
+    "keypress",
+    function(event) {
+
+        if (event.key === "Enter") {
+            searchTransport();
+        }
+
+    }
+);
+
+
+document.getElementById("destination").addEventListener(
+    "keypress",
+    function(event) {
+
+        if (event.key === "Enter") {
+            searchTransport();
+        }
+
+    }
+);
 
 </script>
 
