@@ -1,211 +1,179 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Public Transport Information System</title>
+    <title>Public Transport Information System</title>
 
-<style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
 
-body {
-    background: #f2f6fa;
-    color: #222;
-}
+        body {
+            background: #f2f6fa;
+            color: #222;
+        }
 
-/* Header */
-header {
-    background: linear-gradient(135deg, #0066cc, #00a8ff);
-    color: white;
-    padding: 25px;
-    text-align: center;
-}
+        header {
+            background: linear-gradient(135deg, #0066cc, #00a8ff);
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
 
-header h1 {
-    font-size: 28px;
-}
+        header h1 {
+            font-size: 28px;
+        }
 
-header p {
-    margin-top: 8px;
-    font-size: 15px;
-}
+        header p {
+            margin-top: 8px;
+        }
 
-/* Main Container */
-.container {
-    width: 92%;
-    max-width: 1100px;
-    margin: 25px auto;
-}
+        .container {
+            width: 92%;
+            max-width: 1100px;
+            margin: 30px auto;
+        }
 
-/* Search Box */
-.search-box {
-    background: white;
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-}
+        .search-box {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
 
-.search-box h2 {
-    margin-bottom: 20px;
-    color: #0066cc;
-}
+        .search-box h2 {
+            color: #0066cc;
+            margin-bottom: 20px;
+        }
 
-.form {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
-}
+        .form {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 150px;
+            gap: 15px;
+        }
 
-input,
-select {
-    padding: 13px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 14px;
-    outline: none;
-    width: 100%;
-}
+        input,
+        select {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 14px;
+        }
 
-input:focus,
-select:focus {
-    border-color: #0066cc;
-}
+        button {
+            padding: 13px;
+            border: none;
+            border-radius: 8px;
+            background: #0066cc;
+            color: white;
+            font-size: 15px;
+            cursor: pointer;
+        }
 
-button {
-    padding: 13px;
-    border: none;
-    border-radius: 8px;
-    background: #0066cc;
-    color: white;
-    font-size: 15px;
-    cursor: pointer;
-    transition: 0.3s;
-}
+        button:hover {
+            background: #004c99;
+        }
 
-button:hover {
-    background: #004c99;
-}
+        #result {
+            margin-top: 25px;
+        }
 
-/* Results */
-#result {
-    margin-top: 25px;
-}
+        .card {
+            background: white;
+            padding: 20px;
+            margin-bottom: 15px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
 
-.card {
-    background: white;
-    padding: 20px;
-    margin-bottom: 15px;
-    border-radius: 12px;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
-    transition: 0.3s;
-}
+        .card h3 {
+            color: #0066cc;
+            margin-bottom: 15px;
+        }
 
-.card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.12);
-}
+        .info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
 
-.card h3 {
-    color: #0066cc;
-    margin-bottom: 10px;
-}
+        .info div {
+            background: #eef6ff;
+            padding: 10px;
+            border-radius: 6px;
+        }
 
-.info {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-    margin-top: 10px;
-}
+        .error {
+            background: #ffe5e5;
+            color: #c00000;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+        }
 
-.info span {
-    background: #eef6ff;
-    padding: 10px;
-    border-radius: 6px;
-}
+        .success {
+            background: #e5f8eb;
+            color: #16752f;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
 
-.loading {
-    text-align: center;
-    padding: 20px;
-    color: #0066cc;
-    font-size: 17px;
-}
+        .welcome {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
 
-.error {
-    color: #d00000;
-    background: #ffecec;
-    text-align: center;
-    padding: 15px;
-    border-radius: 8px;
-}
+        footer {
+            margin-top: 40px;
+            background: #123;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
 
-.success {
-    background: #e9f9ee;
-    color: #187a35;
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 8px;
-    text-align: center;
-}
+        @media (max-width: 800px) {
+            .form {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
 
-/* Footer */
-footer {
-    margin-top: 35px;
-    background: #123;
-    color: white;
-    text-align: center;
-    padding: 18px;
-    font-size: 14px;
-}
+        @media (max-width: 500px) {
+            .form {
+                grid-template-columns: 1fr;
+            }
 
-footer p {
-    margin: 5px;
-}
+            .info {
+                grid-template-columns: 1fr;
+            }
 
-/* Mobile */
-@media (max-width: 800px) {
-    .form {
-        grid-template-columns: 1fr 1fr;
-    }
-}
-
-@media (max-width: 500px) {
-    .form {
-        grid-template-columns: 1fr;
-    }
-
-    .info {
-        grid-template-columns: 1fr;
-    }
-
-    header h1 {
-        font-size: 22px;
-    }
-
-    .container {
-        width: 95%;
-    }
-}
-</style>
+            header h1 {
+                font-size: 22px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-<!-- Header -->
 <header>
     <h1>🚌 Public Transport Information System</h1>
-    <p>Find Bus & Train Information Easily</p>
+    <p>Find Bus & Train Information</p>
 </header>
 
-<!-- Main Content -->
 <div class="container">
 
-    <!-- Search Section -->
     <div class="search-box">
 
         <h2>🔎 Search Transport</h2>
@@ -226,11 +194,11 @@ footer p {
 
             <select id="transport">
                 <option value="all">All Transport</option>
-                <option value="bus">Bus</option>
-                <option value="train">Train</option>
+                <option value="Bus">Bus</option>
+                <option value="Train">Train</option>
             </select>
 
-            <button onclick="searchTransport()">
+            <button id="searchBtn">
                 Search
             </button>
 
@@ -238,313 +206,292 @@ footer p {
 
     </div>
 
-    <!-- Results -->
-    <div id="result"></div>
+    <div id="result">
+
+        <div class="welcome">
+            <h2>🚍 Welcome</h2>
+            <p>
+                Enter source and destination to find available
+                public transport.
+            </p>
+        </div>
+
+    </div>
 
 </div>
 
-<!-- Footer -->
 <footer>
     <p>Public Transport Information System</p>
-    <p>Developed using HTML5 • CSS3 • JavaScript • JSON</p>
+    <p>HTML5 • CSS3 • JavaScript</p>
 </footer>
 
 
 <script>
 
-/* =========================================
-   TRANSPORT DATA
-   ========================================= */
+    /* Transport Data */
 
-const transportData = [
+    const transportData = [
 
-    {
-        type: "Bus",
-        number: "BUS-101",
-        name: "City Express",
-        source: "Pandharpur",
-        destination: "Solapur",
-        timing: "08:30 AM",
-        stops: "5 Stops",
-        fare: "₹30"
-    },
+        {
+            type: "Bus",
+            number: "BUS-101",
+            name: "City Express",
+            source: "Pandharpur",
+            destination: "Solapur",
+            timing: "08:30 AM",
+            stops: "5 Stops",
+            fare: "₹30"
+        },
 
-    {
-        type: "Bus",
-        number: "BUS-102",
-        name: "Maharashtra Express",
-        source: "Pune",
-        destination: "Mumbai",
-        timing: "09:15 AM",
-        stops: "8 Stops",
-        fare: "₹150"
-    },
+        {
+            type: "Bus",
+            number: "BUS-102",
+            name: "Maharashtra Express",
+            source: "Pune",
+            destination: "Mumbai",
+            timing: "09:15 AM",
+            stops: "8 Stops",
+            fare: "₹150"
+        },
 
-    {
-        type: "Bus",
-        number: "BUS-103",
-        name: "City Link",
-        source: "Solapur",
-        destination: "Pandharpur",
-        timing: "11:00 AM",
-        stops: "6 Stops",
-        fare: "₹40"
-    },
+        {
+            type: "Bus",
+            number: "BUS-103",
+            name: "City Link",
+            source: "Solapur",
+            destination: "Pandharpur",
+            timing: "11:00 AM",
+            stops: "6 Stops",
+            fare: "₹40"
+        },
 
-    {
-        type: "Train",
-        number: "TR-201",
-        name: "Passenger Express",
-        source: "Pandharpur",
-        destination: "Solapur",
-        timing: "10:15 AM",
-        stops: "8 Stops",
-        fare: "₹45"
-    },
+        {
+            type: "Train",
+            number: "TR-201",
+            name: "Passenger Express",
+            source: "Pandharpur",
+            destination: "Solapur",
+            timing: "10:15 AM",
+            stops: "8 Stops",
+            fare: "₹45"
+        },
 
-    {
-        type: "Train",
-        number: "TR-202",
-        name: "Pune Express",
-        source: "Pune",
-        destination: "Mumbai",
-        timing: "06:30 AM",
-        stops: "12 Stops",
-        fare: "₹120"
-    },
+        {
+            type: "Train",
+            number: "TR-202",
+            name: "Pune Express",
+            source: "Pune",
+            destination: "Mumbai",
+            timing: "06:30 AM",
+            stops: "12 Stops",
+            fare: "₹120"
+        },
 
-    {
-        type: "Train",
-        number: "TR-203",
-        name: "Deccan Express",
-        source: "Mumbai",
-        destination: "Pune",
-        timing: "07:45 AM",
-        stops: "10 Stops",
-        fare: "₹100"
-    }
+        {
+            type: "Train",
+            number: "TR-203",
+            name: "Deccan Express",
+            source: "Mumbai",
+            destination: "Pune",
+            timing: "07:45 AM",
+            stops: "10 Stops",
+            fare: "₹100"
+        }
 
-];
+    ];
 
 
-/* =========================================
-   SEARCH FUNCTION
-   ========================================= */
+    /* Search Function */
 
-function searchTransport() {
+    function searchTransport() {
 
-    const source =
-        document.getElementById("source").value.trim().toLowerCase();
+        const source =
+            document.getElementById("source")
+            .value
+            .trim()
+            .toLowerCase();
 
-    const destination =
-        document.getElementById("destination").value.trim().toLowerCase();
+        const destination =
+            document.getElementById("destination")
+            .value
+            .trim()
+            .toLowerCase();
 
-    const transport =
-        document.getElementById("transport").value;
+        const transport =
+            document.getElementById("transport").value;
 
-    const result =
-        document.getElementById("result");
-
-
-    /* Validation */
-
-    if (source === "" || destination === "") {
-
-        result.innerHTML = `
-            <div class="error">
-                ⚠️ Please enter both Source and Destination.
-            </div>
-        `;
-
-        return;
-    }
+        const result =
+            document.getElementById("result");
 
 
-    /* Loading message */
+        /* Check empty fields */
 
-    result.innerHTML = `
-        <div class="loading">
-            ⏳ Searching transport information...
-        </div>
-    `;
+        if (source === "" || destination === "") {
+
+            result.innerHTML = `
+                <div class="error">
+                    ⚠️ Please enter Source and Destination.
+                </div>
+            `;
+
+            return;
+        }
 
 
-    /* Small delay to simulate API request */
+        /* Find matching transport */
 
-    setTimeout(function () {
-
-        let data = transportData.filter(function(item) {
+        const results = transportData.filter(function(item) {
 
             const sourceMatch =
-                item.source.toLowerCase().includes(source);
+                item.source.toLowerCase() === source;
 
             const destinationMatch =
-                item.destination.toLowerCase().includes(destination);
+                item.destination.toLowerCase() === destination;
 
-            const transportMatch =
+            const typeMatch =
                 transport === "all" ||
-                item.type.toLowerCase() === transport;
+                item.type === transport;
 
             return sourceMatch &&
                    destinationMatch &&
-                   transportMatch;
+                   typeMatch;
+        });
+
+
+        displayResults(results);
+    }
+
+
+    /* Display Results */
+
+    function displayResults(data) {
+
+        const result =
+            document.getElementById("result");
+
+
+        if (data.length === 0) {
+
+            result.innerHTML = `
+                <div class="error">
+                    ❌ No transport found.
+                    <br><br>
+                    Try:
+                    <b>Pandharpur → Solapur</b>
+                    or
+                    <b>Pune → Mumbai</b>
+                </div>
+            `;
+
+            return;
+        }
+
+
+        result.innerHTML = `
+            <div class="success">
+                ✅ ${data.length} transport option(s) found.
+            </div>
+        `;
+
+
+        data.forEach(function(item) {
+
+            const icon =
+                item.type === "Bus"
+                ? "🚌"
+                : "🚆";
+
+
+            result.innerHTML += `
+
+                <div class="card">
+
+                    <h3>
+                        ${icon} ${item.name}
+                    </h3>
+
+                    <div class="info">
+
+                        <div>
+                            <b>Transport No:</b>
+                            ${item.number}
+                        </div>
+
+                        <div>
+                            <b>Type:</b>
+                            ${item.type}
+                        </div>
+
+                        <div>
+                            <b>Source:</b>
+                            ${item.source}
+                        </div>
+
+                        <div>
+                            <b>Destination:</b>
+                            ${item.destination}
+                        </div>
+
+                        <div>
+                            <b>Timing:</b>
+                            ${item.timing}
+                        </div>
+
+                        <div>
+                            <b>Stops:</b>
+                            ${item.stops}
+                        </div>
+
+                        <div>
+                            <b>Fare:</b>
+                            ${item.fare}
+                        </div>
+
+                        <div>
+                            <b>Status:</b>
+                            Available
+                        </div>
+
+                    </div>
+
+                </div>
+
+            `;
+
+        });
+
+    }
+
+
+    /* Button Click */
+
+    document
+        .getElementById("searchBtn")
+        .addEventListener("click", searchTransport);
+
+
+    /* Enter Key */
+
+    document
+        .getElementById("source")
+        .addEventListener("keydown", function(event) {
+
+            if (event.key === "Enter") {
+                searchTransport();
+            }
 
         });
 
 
-        displayResults(data, source, destination);
+    document
+        .getElementById("destination")
+        .addEventListener("keydown", function(event) {
 
-    }, 700);
+            if (event.key === "Enter") {
+                searchTransport();
+            }
 
-}
-
-
-/* =========================================
-   DISPLAY RESULTS
-   ========================================= */
-
-function displayResults(data, source, destination) {
-
-    const result =
-        document.getElementById("result");
-
-
-    /* No result */
-
-    if (data.length === 0) {
-
-        result.innerHTML = `
-            <div class="error">
-                ❌ No transport found from
-                <b>${capitalize(source)}</b>
-                to
-                <b>${capitalize(destination)}</b>.
-                <br><br>
-                Please try another route.
-            </div>
-        `;
-
-        return;
-    }
-
-
-    /* Success message */
-
-    result.innerHTML = `
-        <div class="success">
-            ✅ ${data.length} transport option(s) found
-            from <b>${capitalize(source)}</b>
-            to <b>${capitalize(destination)}</b>.
-        </div>
-    `;
-
-
-    /* Display each transport */
-
-    data.forEach(function(item) {
-
-        const icon =
-            item.type === "Bus" ? "🚌" : "🚆";
-
-
-        result.innerHTML += `
-
-            <div class="card">
-
-                <h3>
-                    ${icon} ${item.name}
-                </h3>
-
-                <div class="info">
-
-                    <span>
-                        <b>Transport No:</b>
-                        ${item.number}
-                    </span>
-
-                    <span>
-                        <b>Type:</b>
-                        ${item.type}
-                    </span>
-
-                    <span>
-                        <b>Route:</b>
-                        ${item.source}
-                        →
-                        ${item.destination}
-                    </span>
-
-                    <span>
-                        <b>Timing:</b>
-                        ${item.timing}
-                    </span>
-
-                    <span>
-                        <b>Stops:</b>
-                        ${item.stops}
-                    </span>
-
-                    <span>
-                        <b>Fare:</b>
-                        ${item.fare}
-                    </span>
-
-                </div>
-
-            </div>
-
-        `;
-
-    });
-
-}
-
-
-/* =========================================
-   CAPITALIZE TEXT
-   ========================================= */
-
-function capitalize(text) {
-
-    return text
-        .split(" ")
-        .map(function(word) {
-
-            return word.charAt(0).toUpperCase()
-                   + word.slice(1);
-
-        })
-        .join(" ");
-
-}
-
-
-/* =========================================
-   ENTER KEY SEARCH
-   ========================================= */
-
-document.getElementById("source").addEventListener(
-    "keypress",
-    function(event) {
-
-        if (event.key === "Enter") {
-            searchTransport();
-        }
-
-    }
-);
-
-
-document.getElementById("destination").addEventListener(
-    "keypress",
-    function(event) {
-
-        if (event.key === "Enter") {
-            searchTransport();
-        }
-
-    }
-);
+        });
 
 </script>
 
